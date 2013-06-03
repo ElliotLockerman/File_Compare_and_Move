@@ -8,14 +8,25 @@ Ignores .DS_Store files (Mac's folder attributes file)
 import os
 from shutil import move
 
+folder_not_entered = True
+while folder_not_entered:
+    folder_duplicate = input('Enter the duplicate folder path. Duplicates found in this folder will be moved: ')
+    if os.path.exists(folder_duplicate):
+        folder_not_entered = False
+        print('    folder_duplicate: ' + folder_duplicate, end="\n\n")
+    else:
+        print('Folder does not exist. Please try again')
 
-folder_duplicate = input('Enter the duplicate folder path. Duplicates found in this folder will be moved: ')
-print('    folder_duplicate: ' + folder_duplicate, end="\n\n")
+folder_not_entered = True
+while folder_not_entered:
+    folder_original = input('Enter original folder path: ')
+    if os.path.exists(folder_original):     
+        folder_not_entered = False
+        print('    folder_original: ' + folder_original, end="\n\n")
+    else:
+        print('Folder does not exist. Please try again')
 
-folder_original = input('Enter original folder path: ')
-print('    folder_original: ' + folder_original, end="\n\n")
-
-ignore_map = set(input('Enter files to be ignored, space delimited. .DS_Store is ignored by default: ').split(sep=' '))
+ignore_map = set(input('.DS_Store is ignored by default.\nEnter addition files to be ignored, space delimited\n(If there are no additional files to be ignored, press enter): ').split(sep=' '))
 ignore_map.add('.DS_Store')
 print('    Ignoring: ',end="") 
 print(ignore_map, end="\n\n")
