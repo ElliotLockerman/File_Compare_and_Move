@@ -1,4 +1,0 @@
-#File Compare and Move
-
-- For check separated folder, if exists, return error
-- Option to name separated folder
