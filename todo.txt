@@ -1,0 +1,5 @@
+#File Compare and Move
+
+- Implement ignore map
+- For check separated folder, if exists, return error
+- Option to name separated folder
