@@ -14,36 +14,41 @@ from tkinter import filedialog
 
 
 
-folder_duplicate = ""
-def get_folder_duplicate():
-    folder_duplicate.set = filedialog.askdirectory()
-    return folder_duplicate
 
-folder_original = ""
+def get_folder_duplicate():
+    folder_duplicate.set(filedialog.askdirectory())
+
+
 def get_folder_original():
-    folder_original.set = filedialog.askdirectory()
-    return folder_original
+    folder_original.set(filedialog.askdirectory())
     
-folder_separated = ""
+    
 def get_folder_separated():
-    folder_separated.set = filedialog.askdirectory()
-    return folder_original
+    folder_separated.set(filedialog.askdirectory())
+
+
 
 
 #Compare folders, create set of duplicates, move duplicates
-def compare_and_move( folder_duplicate_function, folder_original_function, folder_separated_function, ignore_map_function):
+def compare_and_move():
     
-    folder_duplicate_files = set(os.listdir(path=folder_duplicate_function))#Create sets from list
-    folder_original_files = set(os.listdir(path=folder_original_function))#Create sets from list
-
+    folder_duplicate_str=folder_duplicate.get()
+    folder_original_str=folder_original.get()
+    folder_separated_str=folder_separated.get()
+    ignore_map_str = ignore_map.get()
+    
+    
+    folder_duplicate_files = set(os.listdir(path=folder_duplicate_str))#Create sets from list
+    folder_original_files = set(os.listdir(path=folder_original_str))#Create sets from list
+    ignore_map_set = set(ignore_map_str)
     
     actual_duplicate_set = (folder_duplicate_files & folder_original_files) 
-    actual_duplicate_set = actual_duplicate_set - ignore_map_function
+    actual_duplicate_set = actual_duplicate_set - ignore_map_str
 
     #Move duplicates
     for actual_duplicate_filename in actual_duplicate_set:
         #print('Duplicate Detected! Moving ' + actual_duplicate_filename)
-        move(folder_duplicate_function + '/' + actual_duplicate_filename, folder_separated_function)
+        move(folder_duplicate_str + '/' + actual_duplicate_filename, folder_separated_str)
     
 root = Tk()
 root.title("File Compare and Move")
@@ -93,11 +98,11 @@ ttk.Button(mainframe, text="Select Folder...", command= lambda: get_folder_separ
 ttk.Label(mainframe, text="Files to ignore (comma delimited): ").grid(column=0, row=4, padx="15", pady="15")
 ignore_map = StringVar()
 ignore_map.set(".DS_Store,")
-ignore_entry = ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2)
+ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2)
 
 
 #Excecute Button
-ttk.Button(mainframe, text="Find and Move!", command= lambda: compare_and_move( folder_duplicate, folder_original, folder_separated, ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
+ttk.Button(mainframe, text="Find and Move!", command= lambda: compare_and_move()).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
 
 
 root.mainloop()
