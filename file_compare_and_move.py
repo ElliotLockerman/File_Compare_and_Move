@@ -34,10 +34,9 @@ def compare_and_move():
     
     folder_duplicate_str=folder_duplicate.get()
     folder_original_str=folder_original.get()
-    folder_separated_str=folder_separated.get()
-    ignore_map_str = ignore_map.get()
-    
-    
+    folder_separated_str=folder_separated.get()   
+    ignore_map_str = set(ignore_map.get().split(sep=','))
+
     folder_duplicate_files = set(os.listdir(path=folder_duplicate_str))#Create sets from list
     folder_original_files = set(os.listdir(path=folder_original_str))#Create sets from list
     ignore_map_set = set(ignore_map_str)
