@@ -8,6 +8,8 @@ Ignores .DS_Store files (Mac's folder attributes file)
 
 import os
 from shutil import move
+from tkinter import *
+from tkinter import ttk
 
 
 # Get folder_duplicate
@@ -30,19 +32,7 @@ while folder_not_entered:
         print('    folder_original: ' + folder_original, end="\n\n")
     else:
         print('Folder does not exist. Please try again')
-
-
-#Get ignore_map
-ignore_map = set(input('.DS_Store is ignored by default.\nEnter addition files to be ignored, comma delimited\n(If there are no additional files to be ignored, press enter): ').split(sep=','))
-ignore_map.add('.DS_Store')
-print('    Ignoring: ',end="") 
-print(ignore_map, end="\n\n")
-
-
-#Create sets from lists
-folder_duplicate_files = set(os.listdir(path=folder_duplicate))
-folder_original_files = set(os.listdir(path=folder_original))
-
+folder_duplicate_files = set(os.listdir(path=folder_duplicate))#Create sets from list
 
 #Get folder_seperated
 folder_separated = os.path.dirname(folder_duplicate) + '/separated'
@@ -52,16 +42,27 @@ print('folder_separated: ',end="")
 print(folder_separated)
 
 
+#Get ignore_map
+ignore_map = set(input('.DS_Store is ignored by default.\nEnter addition files to be ignored, comma delimited\n(If there are no additional files to be ignored, press enter): ').split(sep=','))
+ignore_map.add('.DS_Store')
+print('    Ignoring: ',end="") 
+print(ignore_map, end="\n\n")
+folder_original_files = set(os.listdir(path=folder_original))#Create sets from list
+
+
+
+
+
 #Compare folders and create set of duplicates
-actual_duplicate_set = (folder_duplicate_files & folder_original_files) 
-actual_duplicate_set = actual_duplicate_set - ignore_map
+def compare_folders( folder_duplicate_files_function, folder_original_files_fuction, ignore_map_function):
+    actual_duplicate_set = (folder_duplicate_files_function & folder_original_files_fuction) 
+    actual_duplicate_set = actual_duplicate_set - ignore_map_function
 
-
-#Move duplicates
-for actual_duplicate_filename in actual_duplicate_set:
-    print('Duplicate Detected! Moving ' + actual_duplicate_filename)
-    move(folder_duplicate + '/' + actual_duplicate_filename, folder_separated)
+    #Move duplicates
+    for actual_duplicate_filename in actual_duplicate_set:
+        print('Duplicate Detected! Moving ' + actual_duplicate_filename)
+        move(folder_duplicate + '/' + actual_duplicate_filename, folder_separated)
     
+root = Tk()
 
 
-print('All done!')
