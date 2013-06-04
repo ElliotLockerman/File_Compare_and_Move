@@ -33,7 +33,7 @@ while folder_not_entered:
 
 
 #Get ignore_map
-ignore_map = set(input('.DS_Store is ignored by default.\nEnter addition files to be ignored, space delimited\n(If there are no additional files to be ignored, press enter): ').split(sep=' '))
+ignore_map = set(input('.DS_Store is ignored by default.\nEnter addition files to be ignored, comma delimited\n(If there are no additional files to be ignored, press enter): ').split(sep=','))
 ignore_map.add('.DS_Store')
 print('    Ignoring: ',end="") 
 print(ignore_map, end="\n\n")
