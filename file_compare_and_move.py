@@ -1,57 +1,90 @@
 #! /usr/bin/env python3
 '''
-Given two folders as input, folder_duplicate and folder_original, any files or folders in folder_duplicate that have a match in folder_original are moved to a new folder, 'separated'.
-NOT recursive, i.e. if two folders have a matching name, the entire folder will be moved, regardless of its contents.
-Ignores .DS_Store files (Mac's folder attributes file)
+Given two folders as input, folder_duplicate and folder_original, any files or 
+folders in folder_duplicate that have a match in folder_original are moved to a 
+new folder, 'separated'. NOT recursive, i.e. if two folders have a matching 
+name, the entire folder will be moved, regardless of its contents. By default
+ignores .DS_Store files (Mac's folder attributes file)
 '''
 
 
 import os
 from shutil import move
-from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-
+from tkinter import *
 
 
 
 def get_folder_duplicate():
     folder_duplicate.set(filedialog.askdirectory())
 
-
 def get_folder_original():
     folder_original.set(filedialog.askdirectory())
-    
-    
+     
 def get_folder_separated():
     folder_separated.set(filedialog.askdirectory())
 
 
-
-
-#Compare folders, create set of duplicates, move duplicates
-def compare_and_move(folder_duplicate_function,folder_original_function,folder_separated_function,ignore_map_function):
+# Compare folders, create set of duplicates, move duplicates
+def compare_and_move(folder_duplicate_function,folder_original_function,
+                     folder_separated_function,ignore_map_function):
     
-    prog_window = Toplevel(root)
-    prog_window.resizable(FALSE,FALSE)
-    prog_frame = ttk.Frame(prog_window, padding="10 10 10 10")
-    prog_frame.grid(column=0, row=0, sticky=(W, N, E, S))
-    ttk.Label(prog_frame, text="Searching for and moving duplicates ").grid(column=1, row=0, padx="15", pady="15", sticky=E)
-    prog_bar = ttk.Progressbar(prog_frame, orient="horizontal", length=250, mode='indeterminate')
-    prog_bar.grid(column=0, row=1, columnspan=3)
-    prog_bar.start()
-
-    
-    
+    # Get strings from StringVar() arguments
     folder_duplicate_str=folder_duplicate_function.get()
     folder_original_str=folder_original_function.get()
     folder_separated_str=folder_separated_function.get()   
     ignore_map_str = set(ignore_map_function.get().split(sep=','))
-    #NEED TO CHECK IF DIRECTORIES EXIST
+    # NEED TO CHECK IF DIRECTORIES EXIST
 
+    # Check if directories exist
+    if not os.path.exists(folder_duplicate_str):
+        fail_window = Toplevel(root)
+        fail_window.resizable(FALSE,FALSE)
+        fail_frame = ttk.Frame(fail_window, padding="10 10 10 10")
+        fail_frame.grid(column=0, row=0, sticky=(W, N, E, S))
+        ttk.Label(fail_frame, text="The folder with duplicates you specified" \
+            " does not exist. Please try again").grid(column=0, row=0, pady=10)
+        ttk.Button(fail_frame, text="Ok",
+                   command=lambda: fail_window.destroy()).grid(column=0, row=2)
+        return
+    if not os.path.exists(folder_original_str):
+        fail_window = Toplevel(root)
+        fail_window.resizable(FALSE,FALSE)
+        fail_frame = ttk.Frame(fail_window, padding="10 10 10 10")
+        fail_frame.grid(column=0, row=0, sticky=(W, N, E, S))
+        ttk.Label(fail_frame, text="The folder with originals you specified" \
+            " does not exist. Please try again").grid(column=0, row=0, pady=10)
+        ttk.Button(fail_frame, text="Ok",
+                   command=lambda: fail_window.destroy()).grid(column=0, row=2)
+        return
+    if not os.path.exists(folder_separated_str):
+        fail_window = Toplevel(root)
+        fail_window.resizable(FALSE,FALSE)
+        fail_frame = ttk.Frame(fail_window, padding="10 10 10 10")
+        fail_frame.grid(column=0, row=0, sticky=(W, N, E, S))
+        ttk.Label(fail_frame, text="The folder to move to you specified" \
+            " does not exist. Please try again").grid(column=0, row=0, pady=10)
+        ttk.Button(fail_frame, text="Ok",
+                   command=lambda: fail_window.destroy()).grid(column=0, row=2)
+        return
+    
+    # Draw window with progress bar
+    prog_window = Toplevel(root)
+    prog_window.resizable(FALSE,FALSE)
+    prog_frame = ttk.Frame(prog_window, padding="10 10 10 10")
+    prog_frame.grid(column=0, row=0, sticky=(W, N, E, S))
+    ttk.Label(prog_frame, text="Searching for and moving duplicates ").grid(
+        column=1, row=0, padx="15", pady="15", sticky=E)
+    prog_bar = ttk.Progressbar(prog_frame, orient="horizontal", 
+                               length=250, mode='indeterminate')
+    prog_bar.grid(column=0, row=1, columnspan=3)
+    prog_bar.start()
+    
 
-    folder_duplicate_files = set(os.listdir(path=folder_duplicate_str))#Create sets from list
-    folder_original_files = set(os.listdir(path=folder_original_str))#Create sets from list
+    # Create sets from lists from strings
+    folder_duplicate_files = set(os.listdir(path=folder_duplicate_str))
+    folder_original_files = set(os.listdir(path=folder_original_str))
     ignore_map_set = set(ignore_map_str)
     
     actual_duplicate_set = (folder_duplicate_files & folder_original_files) 
@@ -59,10 +92,10 @@ def compare_and_move(folder_duplicate_function,folder_original_function,folder_s
 
 
 
-    #Move duplicates
+    # Move duplicates
     for actual_duplicate_filename in actual_duplicate_set:
-        #print('Duplicate Detected! Moving ' + actual_duplicate_filename)
-        move(folder_duplicate_str + '/' + actual_duplicate_filename, folder_separated_str)
+        move(folder_duplicate_str + '/' + actual_duplicate_filename, 
+             folder_separated_str)
  
     prog_window.destroy()
     
@@ -70,10 +103,10 @@ def compare_and_move(folder_duplicate_function,folder_original_function,folder_s
     done_window.resizable(FALSE,FALSE)
     done_frame = ttk.Frame(done_window, padding="10 10 10 10")
     done_frame.grid(column=0, row=0, sticky=(W, N, E, S))
-    ttk.Label(done_frame, text="All Done! ").grid(column=0, row=0, pady=10)
-    ttk.Button(done_frame, text="Ok", command=lambda: done_window.destroy()).grid(column=0, row=2)
+    ttk.Label(done_frame, text="All Done!").grid(column=0, row=0, pady=10)
+    ttk.Button(done_frame, text="Ok", 
+               command=lambda: done_window.destroy()).grid(column=0, row=2)
 
-    
     
     
     
@@ -86,7 +119,7 @@ root.minsize(650,350)
 root.maxsize(2000,350)
 
 
-#Root-level frame
+# Root-level frame
 mainframe = ttk.Frame(root, padding="10 30 10 10")
 mainframe.grid(column=0, row=0, sticky=(W, N, E, S))
 
@@ -104,36 +137,53 @@ mainframe.rowconfigure(5, weight=0)
 
 
 
-#Elements
-#Folder Duplicate
-ttk.Label(mainframe, text="Folder with duplicates: ").grid(column=0, row=1, padx="15", pady="15", sticky=E)
+# Elements
+# Folder Duplicate
+ttk.Label(mainframe, text="Folder with duplicates: ") \
+    .grid(column=0, row=1, padx="15", pady="15", sticky=E)
 folder_duplicate = StringVar()
-ttk.Entry(mainframe, textvariable=folder_duplicate).grid(column=1, row=1, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", command=lambda: get_folder_duplicate()).grid(column=3, row=1, sticky=W, padx="15", pady="15")
+ttk.Entry(mainframe, textvariable=folder_duplicate) \
+    .grid(column=1, row=1, columnspan=2, padx="15", pady="15", sticky=W+E)
+ttk.Button(mainframe, text="Select Folder...", 
+           command=lambda: get_folder_duplicate()) \
+    .grid(column=3, row=1, sticky=W, padx="15", pady="15")
 
 
-#Folder Original
-ttk.Label(mainframe, text="Folder with originals: ").grid(column=0, row=2, padx="15", pady="15", sticky=E)
+# Folder Original
+ttk.Label(mainframe, text="Folder with originals: ") \
+    .grid(column=0, row=2, padx="15", pady="15", sticky=E)
 folder_original = StringVar()
-ttk.Entry(mainframe, textvariable=folder_original).grid(column=1, row=2, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", command=lambda: get_folder_original()).grid(column=3, row=2, padx="15", pady="15")
+ttk.Entry(mainframe, textvariable=folder_original) \
+    .grid(column=1, row=2, columnspan=2, padx="15", pady="15", sticky=W+E)
+ttk.Button(mainframe, text="Select Folder...", 
+           command=lambda: get_folder_original()) \
+    .grid(column=3, row=2, padx="15", pady="15")
 
-#Folder Separated
-ttk.Label(mainframe, text="Folder to move duplicates to: ").grid(column=0, row=3, padx="15", pady="15", sticky=E)
+# Folder Separated
+ttk.Label(mainframe, text="Folder to move duplicates to: ") \
+    .grid(column=0, row=3, padx="15", pady="15", sticky=E)
 folder_separated = StringVar()
-ttk.Entry(mainframe, textvariable=folder_separated).grid(column=1, row=3, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", command= lambda: get_folder_separated()).grid(column=3, row=3, padx="20", pady="20")
+ttk.Entry(mainframe, textvariable=folder_separated) \
+    .grid(column=1, row=3, columnspan=2, padx="15", pady="15", sticky=W+E)
+ttk.Button(mainframe, text="Select Folder...", 
+           command= lambda: get_folder_separated()) \
+    .grid(column=3, row=3, padx="20", pady="20")
 
 
-#Ignore map
-ttk.Label(mainframe, text="Files to ignore (comma delimited): ").grid(column=0, row=4, padx="15", pady="15", sticky=E)
+# Ignore map
+ttk.Label(mainframe, text="Files to ignore(comma delimited, no spaces): ") \
+    .grid(column=0, row=4, padx="15", pady="15", sticky=E)
 ignore_map = StringVar()
 ignore_map.set(".DS_Store,")
-ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2, sticky=W+E)
+ttk.Entry(mainframe, textvariable=ignore_map) \
+    .grid(column=1, row=4, columnspan=2, sticky=W+E)
 
 
-#Excecute Button
-ttk.Button(mainframe, text="Find and Move!", command= lambda: compare_and_move(folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
+# Execute Button
+ttk.Button(mainframe, text="Find and Move!", 
+           command= lambda: compare_and_move(folder_duplicate,folder_original,
+                                             folder_separated,ignore_map)) \
+    .grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
 
 
 root.mainloop()
