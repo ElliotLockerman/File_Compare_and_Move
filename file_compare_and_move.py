@@ -1,10 +1,6 @@
 #! /usr/bin/env python3
 '''
-Given two folders as input, folder_duplicate and folder_original, any files or 
-folders in folder_duplicate that have a match in folder_original are moved to a 
-new folder, 'separated'. NOT recursive, i.e. if two folders have a matching 
-name, the entire folder will be moved, regardless of its contents. By default
-ignores .DS_Store files (Mac's folder attributes file)
+Given two folders as input, folder_duplicate and folder_original, any files or folders in folder_duplicate that have a match in folder_original are moved to a new folder, 'separated'. NOT recursive, i.e. if two folders have a matching name, the entire folder will be moved, regardless of its contents. By default ignores .DS_Store files (Mac's folder attributes file)
 '''
 
 
@@ -43,8 +39,7 @@ def compare_and_move(folder_duplicate_function,folder_original_function,
         fail_window.resizable(FALSE,FALSE)
         fail_frame = ttk.Frame(fail_window, padding="10 10 10 10")
         fail_frame.grid(column=0, row=0, sticky=(W, N, E, S))
-        ttk.Label(fail_frame, text="The folder with duplicates you specified" \
-            " does not exist. Please try again").grid(column=0, row=0, pady=10)
+        ttk.Label(fail_frame, text="The folder with duplicates you specified does not exist. Please try again").grid(column=0, row=0, pady=10)
         ttk.Button(fail_frame, text="Ok",
                    command=lambda: fail_window.destroy()).grid(column=0, row=2)
         return
