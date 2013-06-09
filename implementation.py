@@ -1,23 +1,31 @@
+#! /usr/bin/env python
+
+import os
+from shutil import move
+
+import gui
+
+def fail(interface_type, fail_text):
+    if interface_type == "gui":
+        gui.new_window(fail_text)
+
+
+
 # Compare folders, create set of duplicates, move duplicates
-def compare_and_move(folder_duplicate_function,folder_original_function,
+def compare_and_move(interface_type,folder_duplicate_function,folder_original_function,
                      folder_separated_function,ignore_map_function):
     
     # Get strings from StringVar() arguments
     folder_duplicate_str=folder_duplicate_function.get()
     folder_original_str=folder_original_function.get()
     folder_separated_str=folder_separated_function.get()   
-    ignore_map_str = set(ignore_map_function.get().split(sep=','))
+    ignore_map_str = set(ignore_map_function.get().split(','))
 
     # Check if directories exist
     if not os.path.exists(folder_duplicate_str):
-        fail_window = Toplevel(root)
-        fail_window.resizable(FALSE,FALSE)
-        fail_frame = ttk.Frame(fail_window, padding="10 10 10 10")
-        fail_frame.grid(column=0, row=0, sticky=(W, N, E, S))
-        ttk.Label(fail_frame, text="The folder with duplicates you specified does not exist. Please try again").grid(column=0, row=0, pady=10)
-        ttk.Button(fail_frame, text="Ok",
-                   command=lambda: fail_window.destroy()).grid(column=0, row=2)
+        fail(interface_type,"The folder with duplicates you specified does not exist. Please try again")
         return
+
     if not os.path.exists(folder_original_str):
         fail_window = Toplevel(root)
         fail_window.resizable(FALSE,FALSE)

@@ -4,14 +4,13 @@ Given two folders as input, folder_duplicate and folder_original, any files or f
 '''
 
 
-import os
-from shutil import move
 from Tkinter import *
 import ttk
 from ttk import *
 import tkFileDialog
 
-import functions
+import implementation
+
 
 # Functions
 
@@ -26,7 +25,13 @@ def get_folder_separated():
     folder_separated.set(tkFileDialog.askdirectory())
 
 
-
+def window(text):
+    new_window = Toplevel(root)
+    new_window.resizable(FALSE,FALSE)
+    new_frame = ttk.Frame(new_window, padding="10 10 10 10")
+    new_frame.grid(column=0, row=0, sticky=(W, N, E, S))
+    ttk.Label(new_frame, text=text).grid(column=0, row=0, pady=10)
+    ttk.Button(new_frame, text="Ok", command=lambda: new_window.destroy()).grid(column=0, row=2)
 
 
 # UI    
@@ -88,7 +93,7 @@ ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2
 
 
 # Execute Button
-ttk.Button(mainframe, text="Find and Move!", command= lambda: functions.compare_and_move(folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
+ttk.Button(mainframe, text="Find and Move!", command= lambda: implementation.compare_and_move("gui",folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
 
 
 root.mainloop()
