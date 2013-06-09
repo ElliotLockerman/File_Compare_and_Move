@@ -6,22 +6,22 @@ Given two folders as input, folder_duplicate and folder_original, any files or f
 
 import os
 from shutil import move
-from tkinter import ttk
-from tkinter import filedialog
-from tkinter import *
-
+from Tkinter import *
+import ttk
+from ttk import *
+import tkFileDialog
 
 # Functions
 
 # Functions to call the select directory dialog. One for each button/folder
 def get_folder_duplicate():
-    folder_duplicate.set(filedialog.askdirectory())
+    folder_duplicate.set(tkFileDialog.askdirectory())
 
 def get_folder_original():
-    folder_original.set(filedialog.askdirectory())
+    folder_original.set(tkFileDialog.askdirectory())
      
 def get_folder_separated():
-    folder_separated.set(filedialog.askdirectory())
+    folder_separated.set(tkFileDialog.askdirectory())
 
 
 # Compare folders, create set of duplicates, move duplicates
