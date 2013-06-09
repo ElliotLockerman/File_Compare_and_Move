@@ -5,6 +5,9 @@
 
 - Grey out "Find and Move!" button if one of the folders is not entered. 
 
+- CLI
+	- Split GUI and fuctions
+
 - Option to automatically create third folder.
 
 - Regex for ignore files. 
