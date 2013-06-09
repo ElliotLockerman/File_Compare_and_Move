@@ -1,4 +1,4 @@
-#! /usr/bin/env python3.3
+#! /usr/bin/env python
 '''
 Given two folders as input, folder_duplicate and folder_original, any files or folders in folder_duplicate that have a match in folder_original are moved to a new folder, 'separated'. NOT recursive, i.e. if two folders have a matching name, the entire folder will be moved, regardless of its contents. By default ignores .DS_Store files (Mac's folder attributes file)
 '''

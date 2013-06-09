@@ -1,5 +1,8 @@
 # Todo
 
+- Option to search subfolders, too. (os.walk)
+	- When not searching subfolders, options to move entire folder, or ignore
+
 - Grey out "Find and Move!" button if one of the folders is not entered. 
 
 - Option to automatically create third folder.
