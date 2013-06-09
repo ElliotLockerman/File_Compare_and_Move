@@ -9,10 +9,8 @@ import ttk
 from ttk import *
 import tkFileDialog
 
-import implementation
+from implementation import compare_and_move
 
-
-# Functions
 
 # Functions to call the select directory dialog. One for each button/folder
 def get_folder_duplicate():
@@ -20,12 +18,11 @@ def get_folder_duplicate():
 
 def get_folder_original():
     folder_original.set(tkFileDialog.askdirectory())
-     
+ 
 def get_folder_separated():
     folder_separated.set(tkFileDialog.askdirectory())
 
-
-def window(text):
+def alert(text):
     new_window = Toplevel(root)
     new_window.resizable(FALSE,FALSE)
     new_frame = ttk.Frame(new_window, padding="10 10 10 10")
@@ -34,8 +31,9 @@ def window(text):
     ttk.Button(new_frame, text="Ok", command=lambda: new_window.destroy()).grid(column=0, row=2)
 
 
+
 # UI    
-    
+
 root = Tk()
 root.title("File Compare and Move")
 root.columnconfigure(0, weight=1)
@@ -93,7 +91,8 @@ ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2
 
 
 # Execute Button
-ttk.Button(mainframe, text="Find and Move!", command= lambda: implementation.compare_and_move("gui",folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
+ttk.Button(mainframe, text="Find and Move!", command= lambda: compare_and_move("gui",folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
 
 
 root.mainloop()
+
