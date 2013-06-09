@@ -134,27 +134,23 @@ mainframe.rowconfigure(5, weight=0)
 # UI Elements
 
 # Folder Duplicate
-ttk.Label(mainframe, text="Folder with duplicates: ") \
-    .grid(column=0, row=1, padx="15", pady="15", sticky=E)
+ttk.Label(mainframe, text="Folder with duplicates: ").grid(column=0, row=1, padx="15", pady="15", sticky=E)
 folder_duplicate = StringVar()
 ttk.Entry(mainframe, textvariable=folder_duplicate).grid(column=1, row=1, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", 
-           command=lambda: get_folder_duplicate()).grid(column=3, row=1, sticky=W, padx="15", pady="15")
+ttk.Button(mainframe, text="Select Folder...", command=lambda: get_folder_duplicate()).grid(column=3, row=1, sticky=W, padx="15", pady="15")
 
 
 # Folder Original
 ttk.Label(mainframe, text="Folder with originals: ").grid(column=0, row=2, padx="15", pady="15", sticky=E)
 folder_original = StringVar()
 ttk.Entry(mainframe, textvariable=folder_original).grid(column=1, row=2, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", 
-           command=lambda: get_folder_original().grid(column=3, row=2, padx="15", pady="15")
+ttk.Button(mainframe, text="Select Folder...", command=lambda: get_folder_original()).grid(column=3, row=2, padx="15", pady="15")
 
 # Folder Separated
 ttk.Label(mainframe, text="Folder to move duplicates to: ").grid(column=0, row=3, padx="15", pady="15", sticky=E)
 folder_separated = StringVar()
 ttk.Entry(mainframe, textvariable=folder_separated).grid(column=1, row=3, columnspan=2, padx="15", pady="15", sticky=W+E)
-ttk.Button(mainframe, text="Select Folder...", 
-           command= lambda: get_folder_separated()).grid(column=3, row=3, padx="20", pady="20")
+ttk.Button(mainframe, text="Select Folder...", command= lambda: get_folder_separated()).grid(column=3, row=3, padx="20", pady="20")
 
 
 # Ignore map
@@ -165,8 +161,7 @@ ttk.Entry(mainframe, textvariable=ignore_map).grid(column=1, row=4, columnspan=2
 
 
 # Execute Button
-ttk.Button(mainframe, text="Find and Move!", 
-           command= lambda: compare_and_move(folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
+ttk.Button(mainframe, text="Find and Move!", command= lambda: compare_and_move(folder_duplicate,folder_original,folder_separated,ignore_map)).grid(column=3, row=5, sticky=(W, E), padx="20", pady="30")
 
 
 root.mainloop()
