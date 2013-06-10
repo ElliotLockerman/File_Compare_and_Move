@@ -5,6 +5,7 @@ import ttk
 from ttk import *
 
 def alert(alert_text):
+    
     alert_window = Tk()
     alert_window.title("File Compare and Move")
     alert_window.resizable(FALSE,FALSE)

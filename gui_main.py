@@ -24,12 +24,12 @@ def get_folder_separated():
     folder_separated.set(tkFileDialog.askdirectory())
 
 
-    
 
 
-root = Tk()
 
 # Windows and Frame    
+    
+root = Tk()
 
 root.title("File Compare and Move")
 root.columnconfigure(0, weight=1)
