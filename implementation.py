@@ -51,8 +51,7 @@ def compare_and_move(main_window,interface_type,folder_duplicate_function,folder
 
     # Move duplicates
     for actual_duplicate_filename in actual_duplicate_set:
-        move(folder_duplicate_str + '/' + actual_duplicate_filename, 
-             folder_separated_str)
+        move(os.path.join(folder_duplicate_str, actual_duplicate_filename), folder_separated_str)
  
 
     
